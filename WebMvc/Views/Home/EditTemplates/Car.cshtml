@@ -1,0 +1,7 @@
+﻿@model Application.Models.CarDTO
+
+<div class="row">
+    <div class="col-md-3">@Model.CreateTime.ToString()</div>
+    <div class="col-md-3">@Model.Make</div>
+    <div class="col-md-3">@Model.GetDetails()</div>
+</div>

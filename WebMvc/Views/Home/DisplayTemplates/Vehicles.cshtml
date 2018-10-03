@@ -1,0 +1,16 @@
+﻿@using Application.Models
+@using System.Collections.Generic
+@model IEnumerable<VehicleDTO>
+
+<div class="row">
+    <div class="col-md-3">Create Time</div>
+    <div class="col-md-3">Make</div>
+    <div class="col-md-3">Details</div>
+</div>
+@foreach(var vehicle in Model)
+{
+    if(vehicle is CarDTO)
+    {
+        Html.RenderPartial("DisplayTemplates/Car", vehicle);
+    }
+}
