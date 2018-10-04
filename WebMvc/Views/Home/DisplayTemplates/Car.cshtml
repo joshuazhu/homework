@@ -1,8 +1,13 @@
-﻿@model Application.Models.CarDTO
+﻿@using Application.Enumerations
+@model Application.Models.CarDTO
 
 <div class="row">
     <div class="col-md-3">@Model.CreateTime.ToString()</div>
     <div class="col-md-3">@Model.Make</div>
-    <div class="col-md-3">@Model.GetDetails()</div>
-    <div class="col-md-3"><i class="fas fa-edit"></i></div>
+    <div class="col-md-5">@Model.GetDetails()</div>
+    <div class="col-md-1">
+        <a href="@Url.Action("Vehicle", "Home", new { id = Model.Id, type = VehicleType.Car})">
+            <i class="fas fa-edit"></i>
+        </a>
+    </div>
 </div>

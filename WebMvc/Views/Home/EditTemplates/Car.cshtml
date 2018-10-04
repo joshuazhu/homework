@@ -1,7 +1,96 @@
-﻿@model Application.Models.CarDTO
+﻿@using Domain.Enumerations
+@model Application.Models.CarDTO
+@{
+    var carBodyTypes = Enum.GetValues(typeof(CarBodyType)).Cast<CarBodyType>()
+        .Select(x => new SelectListItem()
+        {
+            Value = x.ToString(),
+            Text = x.ToString(),
+        }).ToList();
+}
 
-<div class="row">
-    <div class="col-md-3">@Model.CreateTime.ToString()</div>
-    <div class="col-md-3">@Model.Make</div>
-    <div class="col-md-3">@Model.GetDetails()</div>
+<div id="updateCar">
+    @using (Html.BeginForm("Update", "Car", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div style="display:none">
+            @Html.EditorFor(x => x.Id)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.Make)
+            @Html.EditorFor(x => x.Make, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(x => x.Make, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.Model)
+            @Html.EditorFor(x => x.Model, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.Engine)
+            @Html.EditorFor(x => x.Engine, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.Doors)
+            @Html.EditorFor(x => x.Doors, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.Wheels)
+            @Html.EditorFor(x => x.Wheels, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.BodyType)
+            @Html.DropDownListFor(x => x.BodyType, carBodyTypes, new { @class = "form-control" })
+        </div>
+
+        <input type="submit" value="Update" class="btn btn-default" />
+        <div class="form-group">
+            <div class="col-md-9 col-md-offset-3">
+                <div id="messages"></div>
+            </div>
+        </div>
+    }
 </div>
+
+    <script>
+        $(document).ready(function () {
+            $('form').bootstrapValidator({
+                container: '#messages',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    Make: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The Make is required and cannot be empty'
+                            }
+                        }
+                    },
+                    Content: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The email address is required and cannot be empty'
+                            },
+                            emailAddress: {
+                                message: 'The email address is not valid'
+                            }
+                        }
+                    },
+                    Author: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The Author is required and cannot be empty'
+                            },
+                            stringLength: {
+                                max: 20,
+                                message: 'The Author must be less than 100 characters long'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>

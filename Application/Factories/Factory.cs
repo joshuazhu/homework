@@ -5,6 +5,7 @@ using Application.Models;
 using Domain.Interfaces;
 using Repository.Interfaces;
 using System.Linq;
+using Application.Enumerations;
 
 namespace Application.Factories
 {
@@ -26,9 +27,27 @@ namespace Application.Factories
             throw new NotImplementedException();
         }
 
+        public VehicleDTO Create(VehicleType type)
+        {
+            switch(type)
+            {
+                case VehicleType.Car:
+                    return new CarDTO();
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
         public IEnumerable<VehicleDTO> Get()
         {
             return repository.Get().Select(x => Create(x));
+        }
+
+        public VehicleDTO Get(int id, VehicleType type)
+        {
+            var vehicle = repository.Get(id);
+
+            return vehicle != null ? Create(vehicle) : Create(type);
         }
     }
 }

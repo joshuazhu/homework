@@ -3,23 +3,20 @@ using Domain.Interfaces;
 using Repository.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
-using Domain.Exceptions;
 using Domain;
+using Utility.Exceptions;
 
 namespace Repository
 {
     public class MemoryRepository : IRepository
     {
-        private static readonly List<IVehicle> _vehicles = new List<IVehicle>() {
-            new Car()
-            {
-                Make = "Make"
-            }
-        };
+        private static readonly List<IVehicle> _vehicles = new List<IVehicle>();
         private static int NextId = 1;
+
         public IVehicle Create(IVehicle vehicle)
         {
             vehicle.Id = NextId++;
+            vehicle.CreateTime = DateTime.Now;
             _vehicles.Add(vehicle);
             return vehicle;
         }

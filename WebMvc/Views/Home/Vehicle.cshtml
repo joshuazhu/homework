@@ -1,0 +1,15 @@
+﻿@using Application.Models
+@using System.Collections.Generic
+@model VehicleDTO
+
+
+<div>
+    <h1>Update Vehicle</h1>
+    <div>
+
+    </div>
+    @if(Model is CarDTO)
+    {
+        Html.RenderPartial("EditTemplates/Car", Model);
+    }
+</div>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Enumerations;
 using Application.Factories;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Interfaces;
@@ -25,6 +26,12 @@ namespace WebMvc.Controllers
         {
             var vehicles = factory.Get().ToList();
             return View(vehicles);
+        }
+
+        public IActionResult Vehicle(int id, VehicleType type)
+        {
+            var vehicle = factory.Get(id, type);
+            return View(vehicle);
         }
     }
 }

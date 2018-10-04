@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Factories;
+using Application.Services;
+using Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -17,6 +19,17 @@ namespace WebMvc
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            var repository = new MemoryRepository();
+            repository.Create(new Car()
+            {
+                Make = "Make",
+                Model = "Model",
+                Engine = "Engine",
+                Doors = 4,
+                Wheels = 4,
+                BodyType = Domain.Enumerations.CarBodyType.Sedan
+            });
         }
 
         public IConfiguration Configuration { get; }
@@ -26,6 +39,7 @@ namespace WebMvc
         {
             services.AddSingleton<IRepository, MemoryRepository>();
             services.AddSingleton<IFactory, Factory>();
+            services.AddSingleton<IStoreService, StoreService>();
 
             services.AddMvc();
         }

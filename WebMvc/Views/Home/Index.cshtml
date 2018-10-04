@@ -1,12 +1,29 @@
 ﻿@using Application.Models
+@using Application.Enumerations
 @using System.Collections.Generic
 @model List<VehicleDTO>
+@{ 
+    var vehicleTypes = Enum.GetValues(typeof(VehicleType)).Cast<VehicleType>().ToList();
+}
 
 
 <div>
     <h1>Mini Carsales System</h1>
-    <div>
-        
+    <br />
+    <div class="row">
+        <div class="col-md-3"><strong>Add vechicle</strong></div>
+        <div class="col-md-9">
+            <select class="form-control" onchange="javascript:location.href = this.value;">
+                <option></option>
+                @foreach(var type in vehicleTypes)
+                {
+                    <option value="@Url.Action("Vehicle", "Home", new { id = 0, type = type })">
+                        @type.ToString()
+                    </option>
+                }
+            </select>
+        </div>
     </div>
+    <br />
     @{Html.RenderPartial("DisplayTemplates/Vehicles", Model);}
 </div>
